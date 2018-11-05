@@ -1,3 +1,12 @@
+"""
+CS 2302
+Emilio Ramirez
+Lab 3 A
+Diego Aguirre,  Manoj Saha
+Last Date Modified: Novemeber 4th, 2018
+Purpose:  Use AVL and RedBlack trees to find the cosine distance between words( similarity) 
+"""
+
 import math
 from AVL import Node 
 from AVL import AVLTree
@@ -87,21 +96,28 @@ def Similarity(filename, Tree):
     with open(filename, encoding ="utf8") as file:
         for line in file:
             values = line.split()
+            # the two lines below first search for the words in the tree
             Word_1 = Tree.search(values[0])
             Word_2 = Tree.search(values[1])
+            
+            # if either of the words is not found then there is no need to compare 
             if Word_1 == None or Word_2 == None:
                 print("One of the words was not found Similarity = 0")
                 continue
             Word_1_Magnitude = 0
             Word_2_Magnitude = 0
             Dot_Product = 0
+            
+            # the following block of code follows the equation to find the cosine Distance 
             for i in range(len(Word_1.embedding)):
                 Word_1_Magnitude += math.pow(float(Word_1.embedding[i]),2)
                 Word_2_Magnitude += math.pow(float(Word_2.embedding[i]),2)
                 Dot_Product += float(Word_1.embedding[i]) * float(Word_2.embedding[i])
             Word_1_Magnitude = math.sqrt(Word_1_Magnitude)
             Word_2_Magnitude = math.sqrt(Word_2_Magnitude)
+            # cosine distance = Dot product/(magnitude of word 1 *magnitude of word 2)
             likeness = Dot_Product/((Word_1_Magnitude)*Word_2_Magnitude)
+            
             print(Word_1.key + " and " + Word_2.key + " have a Simliarity of " + str(likeness))
 
 
